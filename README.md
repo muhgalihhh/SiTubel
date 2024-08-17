@@ -1,20 +1,34 @@
 <!-- Banner -->
 ![Sistem Pengajuan Tugas Belajar Mandiri](https://github.com/muhgalihhh/SiTubel/blob/Muhamad-galih/banner.jpg)
 
-# Sistem Pengajuan Tugas Belajar Mandiri PNS Kota Banjar
+# **Sistem Pengajuan Tugas Belajar Mandiri PNS Kota Banjar**
 
-Selamat datang di Sistem Pengajuan Tugas Belajar Mandiri bagi Pegawai Negeri Sipil (PNS) Kota Banjar. Sistem ini dirancang untuk mempermudah proses pengajuan dan pengelolaan tugas belajar secara online, menggantikan proses manual yang memakan waktu dan rentan terhadap kesalahan.
+Selamat datang di **Sistem Pengajuan Tugas Belajar Mandiri** bagi **Pegawai Negeri Sipil (PNS) Kota Banjar**. Sistem ini dirancang untuk mempermudah proses pengajuan dan pengelolaan tugas belajar secara online, menggantikan proses manual yang memakan waktu dan rentan terhadap kesalahan.
 
-## 🚀 Fitur Utama
+## 🚀 **Fitur Utama**
 
 - **Pengajuan Tugas Belajar**: PNS dapat mengajukan tugas belajar secara online melalui antarmuka yang sederhana.
+- **Manajemen Data Pribadi**:
+  - **Ubah Profil**: Pengguna dapat memperbarui informasi profil mereka secara mudah.
+  - **Manajemen Pegawai**: Admin dapat menambah, mengedit, dan menghapus data pegawai.
+  - **Manajemen Unit Kerja**: Admin dapat mengelola data unit kerja yang ada di organisasi.
 - **Notifikasi Otomatis**: Sistem secara otomatis mengirimkan notifikasi kepada pengguna setiap kali ada perubahan status pengajuan.
 - **Manajemen Berkas**: Memudahkan pengguna dalam mengupload dan mengelola dokumen persyaratan.
-- **Role-based Access**: Akses sistem terstruktur berdasarkan peran pengguna (Admin, OPD, PNS) untuk meningkatkan keamanan dan efisiensi.
+- **Role-based Access**: Akses sistem terstruktur berdasarkan peran pengguna (**Admin**, **OPD**, **PNS**) untuk meningkatkan keamanan dan efisiensi.
 
-## 🛠️ Teknologi yang Digunakan
+## 👥 **Role Pengguna**
 
-### Bahasa Pemrograman
+Sistem ini memiliki tiga peran utama yang masing-masing memiliki hak akses dan tanggung jawab berbeda:
+
+- **Admin**: Memiliki akses penuh ke semua fitur sistem, termasuk pengelolaan data pegawai dan unit kerja, serta dapat mengelola pengajuan tugas belajar dan notifikasi. Admin bertanggung jawab untuk konfigurasi dan manajemen sistem secara keseluruhan.
+  
+- **Pegawai**: Pengguna dengan peran ini dapat mengajukan tugas belajar, mengelola profil pribadi mereka, dan melihat status pengajuan mereka. Pegawai tidak memiliki akses untuk mengelola data pegawai atau unit kerja.
+  
+- **OPD (Organisasi Perangkat Daerah)**: Pengguna dengan peran ini memiliki akses untuk melihat dan mengelola pengajuan tugas belajar dalam unit kerja mereka. OPD dapat memberikan persetujuan atau penolakan terhadap pengajuan tugas belajar yang masuk.
+
+## 🛠️ **Teknologi yang Digunakan**
+
+### **Bahasa Pemrograman**
 
 <p align="left">
     <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
@@ -24,7 +38,7 @@ Selamat datang di Sistem Pengajuan Tugas Belajar Mandiri bagi Pegawai Negeri Sip
 - **PHP**: Bahasa pemrograman server-side yang digunakan untuk membangun aplikasi web dinamis. PHP menangani logika backend, komunikasi database, dan pemrosesan server.
 - **JavaScript**: Bahasa pemrograman yang digunakan di sisi klien untuk menambahkan interaktivitas dan dinamisme pada antarmuka pengguna. JavaScript berperan dalam pengelolaan tampilan dan interaksi pengguna.
 
-### Framework
+### **Framework**
 
 <p align="left">
     <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
@@ -34,7 +48,7 @@ Selamat datang di Sistem Pengajuan Tugas Belajar Mandiri bagi Pegawai Negeri Sip
 - **Laravel**: Framework PHP yang mempermudah pengembangan aplikasi web dengan menyediakan struktur yang bersih dan beragam fitur canggih seperti routing, middleware, dan ORM (Eloquent).
 - **Filament**: Paket Laravel untuk membangun antarmuka admin yang efisien dan mudah digunakan. Filament membantu dalam pembuatan dasbor, formulir, dan pengelolaan data dengan cepat.
 
-### Library
+### **Library**
 
 <p align="left">
     <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
@@ -44,7 +58,7 @@ Selamat datang di Sistem Pengajuan Tugas Belajar Mandiri bagi Pegawai Negeri Sip
 - **Tailwind CSS**: Framework CSS utilitas-first yang memungkinkan pengembangan antarmuka pengguna dengan desain responsif dan modern menggunakan kelas-kelas yang sudah ditentukan.
 - **jQuery**: Library JavaScript yang menyederhanakan manipulasi DOM, pengelolaan event, dan komunikasi AJAX. Meskipun kurang umum pada proyek baru, jQuery masih digunakan untuk mempercepat pengembangan web.
 
-### Database
+### **Database**
 
 <p align="left">
     <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
@@ -52,14 +66,14 @@ Selamat datang di Sistem Pengajuan Tugas Belajar Mandiri bagi Pegawai Negeri Sip
 
 - **MySQL**: Sistem manajemen basis data relasional open-source yang digunakan untuk menyimpan dan mengelola data aplikasi. MySQL sangat efisien dalam menangani data yang besar dan mendukung berbagai fitur seperti transaksi dan pemulihan data.
 
-## 📦 Instalasi
+## 📦 **Instalasi**
 
 Pastikan Anda sudah menginstal [Composer](https://getcomposer.org/), [Node.js](https://nodejs.org/), dan [MySQL](https://www.mysql.com/).
 
 1. **Clone repository ini**:
     ```bash
-    git clone https://github.com/username/repository.git
-    cd repository
+    git clone https://github.com/muhgalihhh/SiTubel.git
+    cd SiTubel
     ```
 
 2. **Install dependencies PHP dan JavaScript**:
@@ -109,10 +123,10 @@ Pastikan Anda sudah menginstal [Composer](https://getcomposer.org/), [Node.js](h
     npm run dev
     ```
 
-## 💡 Contributing
+## 💡 **Contributing**
 
 Kontribusi selalu diterima! Silakan fork repository ini dan buat pull request dengan perubahan yang Anda ajukan.
 
-## 📄 Lisensi
+## 📄 **Lisensi**
 
 Proyek ini dilisensikan di bawah [MIT License](LICENSE).
