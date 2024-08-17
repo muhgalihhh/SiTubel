@@ -25,7 +25,7 @@ Selamat datang di Sistem Pengajuan Tugas Belajar Mandiri bagi Pegawai Negeri Sip
 
 <p align="left">
     <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
-    <img src="https://img.shields.io/badge/Filament-3182CE?style=for-the-badge&logo=laravel&logoColor=white" alt="Filament" />
+    <img src="https://img.shields.io/badge/Filament-3182CE?style=for-the-badge&logo=filament&logoColor=white" alt="Filament" />
 </p>
 
 ### Library
