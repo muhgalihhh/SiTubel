@@ -1,5 +1,5 @@
 <!-- Banner -->
-![Sistem Pengajuan Tugas Belajar Mandiri](https://your-banner-image-url.com/banner.png)
+![Sistem Pengajuan Tugas Belajar Mandiri](https://github.com/muhgalihhh/SiTubel/blob/Muhamad-galih/banner.jpg)
 
 # Sistem Pengajuan Tugas Belajar Mandiri PNS Kota Banjar
 
