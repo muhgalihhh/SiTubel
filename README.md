@@ -81,6 +81,10 @@ Pastikan Anda sudah menginstal [Composer](https://getcomposer.org/) dan [Node.js
     php artisan serve
     ```
 
+      ```bash
+    npm run dev
+    ```
+
 ## 💡 Contributing
 
 Kontribusi selalu diterima! Silakan fork repository ini dan buat pull request dengan perubahan yang Anda ajukan.
