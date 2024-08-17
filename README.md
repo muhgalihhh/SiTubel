@@ -8,7 +8,7 @@ Selamat datang di **Sistem Pengajuan Tugas Belajar Mandiri** bagi **Pegawai Nege
 ## 🚀 **Fitur Utama**
 
 - **Pengajuan Tugas Belajar**: PNS dapat mengajukan tugas belajar secara online melalui antarmuka yang sederhana.
-- **Manajemen Data Pribadi**:
+- **Manajemen Data Konfigurasi**:
   - **Ubah Profil**: Pengguna dapat memperbarui informasi profil mereka secara mudah.
   - **Manajemen Pegawai**: Admin dapat menambah, mengedit, dan menghapus data pegawai.
   - **Manajemen Unit Kerja**: Admin dapat mengelola data unit kerja yang ada di organisasi.
