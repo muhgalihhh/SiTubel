@@ -1,34 +1,43 @@
-# Sistem Pengelolaan Izin Belajar PNS Kota Banjar
+<!-- Banner -->
+![Sistem Pengajuan Tugas Belajar Mandiri](https://your-banner-image-url.com/banner.png)
 
-Selamat datang di Sistem Pengelolaan Izin Belajar bagi Pegawai Negeri Sipil (PNS) Kota Banjar. Sistem ini dirancang untuk mempermudah proses pengajuan dan pengelolaan izin belajar secara online, menggantikan proses manual yang memakan waktu dan rentan terhadap kesalahan.
+# Sistem Pengajuan Tugas Belajar Mandiri PNS Kota Banjar
 
-## Fitur Utama
+Selamat datang di Sistem Pengajuan Tugas Belajar Mandiri bagi Pegawai Negeri Sipil (PNS) Kota Banjar. Sistem ini dirancang untuk mempermudah proses pengajuan dan pengelolaan tugas belajar secara online, menggantikan proses manual yang memakan waktu dan rentan terhadap kesalahan.
 
-- **Pengajuan Izin Belajar**: PNS dapat mengajukan izin belajar secara online.
+## 🚀 Fitur Utama
+
+- **Pengajuan Tugas Belajar**: PNS dapat mengajukan tugas belajar secara online.
 - **Notifikasi Otomatis**: Sistem mengirimkan notifikasi otomatis kepada pengguna terkait setiap ada perubahan status.
 - **Manajemen Berkas**: Upload dan kelola dokumen persyaratan dengan mudah.
 - **Role-based Access**: Akses ke fitur sistem berdasarkan peran pengguna (Admin, OPD, PNS).
 
-## Teknologi yang Digunakan
+## 🛠️ Teknologi yang Digunakan
 
 ### Bahasa Pemrograman
 
-- **PHP**: Digunakan untuk logika backend dan pengelolaan data.
-- **JavaScript**: Digunakan untuk interaksi frontend dan AJAX.
+<p align="left">
+    <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+</p>
 
 ### Framework
 
-- **Laravel**: Framework PHP untuk pengembangan backend yang efisien.
-- **Filament**: Untuk membangun interface admin yang dinamis dan responsif.
+<p align="left">
+    <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
+    <img src="https://img.shields.io/badge/Filament-3182CE?style=for-the-badge&logo=laravel&logoColor=white" alt="Filament" />
+</p>
 
 ### Library
 
-- **Bootstrap**: Library CSS untuk styling yang responsif.
-- **jQuery**: Mempermudah manipulasi DOM dan AJAX.
+<p align="left">
+    <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white" alt="jQuery" />
+</p>
 
-## Instalasi
+## 📦 Instalasi
 
-Pastikan Anda sudah menginstal Composer dan Node.js.
+Pastikan Anda sudah menginstal [Composer](https://getcomposer.org/) dan [Node.js](https://nodejs.org/).
 
 1. Clone repository ini:
     ```bash
@@ -47,61 +56,35 @@ Pastikan Anda sudah menginstal Composer dan Node.js.
     cp .env.example .env
     ```
 
-4. Generate key aplikasi Laravel:
+    Sesuaikan `.env` dengan konfigurasi yang Anda butuhkan:
+    ```
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_dbname
+    DB_USERNAME=your_dbusername
+    DB_PASSWORD=your_dbpassword
+    ```
+
+5. Generate key aplikasi Laravel:
     ```bash
     php artisan key:generate
     ```
 
-5. Jalankan migrasi database:
+6. Jalankan migrasi database:
     ```bash
     php artisan migrate
     ```
 
-6. Jalankan server pengembangan:
+7. Jalankan server pengembangan:
     ```bash
     php artisan serve
     ```
 
-## Penggunaan Aplikasi
+## 💡 Contributing
 
-### Pengajuan Izin Belajar
+Kontribusi selalu diterima! Silakan fork repository ini dan buat pull request dengan perubahan yang Anda ajukan.
 
-1. **Login**: Masuk ke aplikasi dengan akun PNS Anda.
-2. **Formulir Pengajuan**: Navigasikan ke halaman pengajuan izin belajar dan isi formulir yang disediakan.
-3. **Upload Berkas**: Unggah dokumen yang diperlukan, seperti surat usulan.
-4. **Submit**: Klik tombol "Ajukan" untuk mengirim pengajuan izin belajar.
+## 📄 Lisensi
 
-### Notifikasi
-
-Setelah pengajuan dilakukan, Anda akan menerima notifikasi mengenai status pengajuan Anda.
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengajuan Izin Belajar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <h2 class="mt-5">Pengajuan Izin Belajar</h2>
-        <form action="/submit-permission" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="nama" class="form-label">Nama Pegawai</label>
-                <input type="text" class="form-control" id="nama" name="nama" required>
-            </div>
-            <div class="mb-3">
-                <label for="unit_kerja" class="form-label">Unit Kerja</label>
-                <input type="text" class="form-control" id="unit_kerja" name="unit_kerja" required>
-            </div>
-            <div class="mb-3">
-                <label for="surat_usulan" class="form-label">Surat Usulan</label>
-                <input type="file" class="form-control" id="surat_usulan" name="surat_usulan" accept=".pdf,image/*" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Ajukan Izin Belajar</button>
-        </form>
-    </div>
-</body>
-</html>
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
