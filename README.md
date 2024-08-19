@@ -15,6 +15,7 @@ Selamat datang di **Sistem Pengajuan Tugas Belajar Mandiri** bagi **Pegawai Nege
 - **Notifikasi Otomatis**: Sistem secara otomatis mengirimkan notifikasi kepada pengguna setiap kali ada perubahan status pengajuan.
 - **Manajemen Berkas**: Memudahkan pengguna dalam mengupload dan mengelola dokumen persyaratan.
 - **Role-based Access**: Akses sistem terstruktur berdasarkan peran pengguna (**Admin**, **OPD**, **PNS**) untuk meningkatkan keamanan dan efisiensi.
+- **Generate-Surat** : Memudahkan pengguna dalam membuat surat kebutuhan untuk melakukan pengajuan
 
 ## 👥 **Role Pengguna**
 
