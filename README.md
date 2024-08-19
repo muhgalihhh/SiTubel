@@ -7,6 +7,7 @@ Selamat datang di **Sistem Pengajuan Tugas Belajar Mandiri** bagi **Pegawai Nege
 
 ## 🚀 **Fitur Utama**
 
+- **Pengajuan Izin Seleksi**: Sebelum mengajukan Tugas Belajar, PNS harus melakukan pengajuan Izin Seleksi terlebih dahulu 
 - **Pengajuan Tugas Belajar**: PNS dapat mengajukan tugas belajar secara online melalui antarmuka yang sederhana.
 - **Manajemen Data Konfigurasi**:
   - **Ubah Profil**: Pengguna dapat memperbarui informasi profil mereka secara mudah.
