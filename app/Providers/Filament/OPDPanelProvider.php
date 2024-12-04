@@ -28,7 +28,7 @@ class OPDPanelProvider extends PanelProvider
             ->id('opd')
             ->path('opd')
             ->login(LoginOPD::class)
-            ->brandName('SiTubel')
+            ->brandName('Tugas Belajar Mandiri Kota Banjar')
             ->colors([
                 'primary' => Color::Teal,
             ])

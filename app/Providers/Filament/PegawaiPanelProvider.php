@@ -27,7 +27,7 @@ class PegawaiPanelProvider extends PanelProvider
             ->id('pegawai')
             ->path('pegawai')
             ->login(Login::class)
-            ->brandName('SiTubel')
+            ->brandName('Tugas Belajar Mandiri Kota Banjar')
             ->databaseNotifications()
             ->colors([
                 'primary' => Color::Teal,
@@ -39,7 +39,7 @@ class PegawaiPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Pegawai/Widgets'), for: 'App\\Filament\\Pegawai\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                //  Widgets\AccountWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

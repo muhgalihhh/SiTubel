@@ -33,7 +33,7 @@
             <img src="{{ asset('assets/Ellipse.png') }}" class="absolute z-20 w-6 animate-ping right-96 top-36" />
             <img src="{{ asset('assets/Ellipse.png') }}" class="absolute z-20 w-6 animate-ping left-64 bottom-24" />
             <img src="{{ asset('assets/Ellipse.png') }}" class="absolute z-20 w-6 animate-ping right-40 top-64" />
-            <div class="w-4/5 p-3 rounded-lg md:w-3/4 sm:w-3/4 h-1/2 bg-slate-200 lg:w-1/2">
+            <div class="w-4/5 p-3 rounded-lg md:w-3/4 sm:w-3/4 h-1/2 lg:w-1/2">
                 @livewire('home')
             </div>
         </div>

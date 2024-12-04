@@ -25,8 +25,10 @@ class TugasBelajar extends Model implements HasMedia
         'jenjang_tujuan',
 
         // Data Kebutuhan Izin Seleksi
-        'keputusan_cpns_sk_pns_pangkat',
         'skp_dua_tahun',
+        'fotocopi_sk_cpns',
+        'fotocopi_sk_pns',
+        'fotocopi_sk_pangkat',
         'foto_kopi_ijazah_terakhir',
         'foto_kopi_transkrip_terakhir',
         'keputusan_jabatan',
@@ -41,9 +43,6 @@ class TugasBelajar extends Model implements HasMedia
         'rekomendasi_kepala',
         'foto_kopi_rekomendasi_sekda',
         'surat_keterangan_lulus',
-        'fotocopi_sk_cpns',
-        'fotocopi_sk_pns',
-        'fotocopi_sk_pangkat',
         'skp_satu_tahun',
         'ijazah_terakhir',
         'bukti_pendaftaran',

@@ -50,14 +50,13 @@ class UnitKerjaResource extends Resource
 
                 TextInput::make('website')
                     ->label('Website')
-                    ->url()
                     ->maxLength(255),
 
                 TextInput::make('phone')
                     ->label('Phone')
                     ->maxLength(255),
                 TextInput::make('kepala_opd')
-                    ->label('Phone')
+                    ->label('Kepala OPD')
                     ->maxLength(255),
             ]);
     }

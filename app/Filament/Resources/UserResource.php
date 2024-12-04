@@ -94,16 +94,7 @@ class UserResource extends Resource
                     ->sortable(),
                 TextColumn::make('roles.name')
                     ->searchable()
-                    ->label('Role')
-                    ->sortable(),
-            ])
-            ->filters([
-                Filter::make('name')
-                    ->label('Name')
-                    ->query(fn(Builder $query, string $value) => $query->where('name', 'like', "%{$value}%")),
-                Filter::make('email')
-                    ->label('Email')
-                    ->query(fn(Builder $query, string $value) => $query->where('email', 'like', "%{$value}%")),
+                    ->label('Role'),
             ])
             ->actions([
                 ActionGroup::make([

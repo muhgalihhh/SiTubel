@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Support\Enums\Alignment;
+use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\Card;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\View;
@@ -180,12 +181,10 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                 ->sendToDatabase([$user]);
                         }
 
-                        $record->status = 'approved';
+                        $record->status = 'passed';
                         $record->stage = 'tahap_lulus';
-
                         $record->save();
                     }),
-
                 ActionGroup::make([
                     ViewAction::make(),
                     Action::make('Surat Tugas Belajar WaliKota')
@@ -224,8 +223,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                             ($record->stage === 'tahap_seleksi' || $record->stage === 'tahap_lulus') &&
                             in_array($record->jenjang_tujuan, ['SD', 'SMP', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1']) // For jenjang tujuan from SD to S1
                         ),
-
-                    DeleteAction::make(),
+                    DeleteAction::make()->visible(fn(Builder $query) => $query->where('stage', 'tahap_lulus')->where('status', 'passed')->count() > 0),
                 ])->icon('heroicon-o-document-duplicate')->button(),
                 ActionGroup::make([
                     Action::make('Setujui')->form([
@@ -285,7 +283,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->visible(fn(Builder $query) => $query->where('stage', 'tahap_lulus')->where('status', 'passed')->count() > 0),
                 ]),
             ]);
     }
@@ -392,21 +390,21 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                     ]),
 
                 // Kolom kiri
+
                 Card::make()
                     ->schema([
                         TextEntry::make('catatan')
                             ->label('Catatan')
                             ->badge()
-                            ->color(function ($record) {
-                                if ($record->status === 'pending') {
-                                    return 'danger';
-                                } elseif ($record->status === 'approved') {
-                                    return 'success';
-                                } else {
-                                    return 'danger';
-                                }
+                            ->color(fn($record) => match ($record->status) {
+                                'pending' => 'warning',
+                                'approved' => 'success',
+                                'rejected' => 'danger',
+                                default => 'warning',
                             }),
                     ]),
+
+
                 Card::make('Surat Permohonan dan Rekomendasi')
                     ->schema([
                         TextEntry::make('surat_usulan')
@@ -431,7 +429,8 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                         ])->button();
                                 }
                                 return null;
-                            })->default('Belum Diunggah'),
+                            })->default('Belum Diunggah')
+                        ,
 
                         TextEntry::make('rekomendasi_kepala')
                             ->label('2. Rekomendasi Kepala OPD (Oleh KaSubbag)')
@@ -516,32 +515,77 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                     ->label('Data Kebutuhan Izin Seleksi')
                                     ->schema([
                                         // Data Kebutuhan Izin Seleksi
-                                        TextEntry::make('keputusan_cpns_sk_pns_pangkat')
-                                            ->label('1. Keputusan CPNS SK PNS Pangkat')
-                                            ->formatStateUsing(fn($record) => $record->keputusan_cpns_sk_pns_pangkat != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+
+                                        TextEntry::make('fotocopi_sk_cpns')
+                                            ->label('1. Fotocopi SK CPNS')
+                                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_cpns != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
-                                            ->color(fn($record) => $record->keputusan_cpns_sk_pns_pangkat != null ? 'success' : 'danger')
+                                            ->color(fn($record) => $record->fotocopi_sk_cpns != null ? 'success' : 'danger')
                                             ->suffix(function ($record) {
-                                                if ($record->keputusan_cpns_sk_pns_pangkat) {
-                                                    $fileName = basename($record->keputusan_cpns_sk_pns_pangkat);
-                                                    return
-                                                        ActionGroup::make([
-                                                            Action::make('download')
-                                                                ->color('primary')
-                                                                ->icon('heroicon-o-arrow-down-tray')
-                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                                            Action::make('preview')
-                                                                ->color('secondary')
-                                                                ->icon('heroicon-o-eye')
-                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                                ->openUrlInNewTab(),
-                                                        ])->button();
+                                                if ($record->fotocopi_sk_cpns) {
+                                                    $fileName = basename($record->fotocopi_sk_cpns);
+                                                    return ActionGroup::make([
+                                                        Action::make('download')
+                                                            ->color('primary')
+                                                            ->icon('heroicon-o-arrow-down-tray')
+                                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                                        Action::make('preview')
+                                                            ->color('secondary')
+                                                            ->icon('heroicon-o-eye')
+                                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                                            ->openUrlInNewTab(),
+                                                    ])->button();
                                                 }
                                                 return null;
                                             })->default('Belum Diunggah'),
 
+                                        TextEntry::make('fotocopi_sk_pns')
+                                            ->label('2. Fotocopi SK PNS')
+                                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_pns != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->fotocopi_sk_pns != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->fotocopi_sk_pns) {
+                                                    $fileName = basename($record->fotocopi_sk_pns);
+                                                    return ActionGroup::make([
+                                                        Action::make('download')
+                                                            ->color('primary')
+                                                            ->icon('heroicon-o-arrow-down-tray')
+                                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                                        Action::make('preview')
+                                                            ->color('secondary')
+                                                            ->icon('heroicon-o-eye')
+                                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                                            ->openUrlInNewTab(),
+                                                    ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
+
+                                        TextEntry::make('fotocopi_sk_pangkat')
+                                            ->label('3. Fotocopi SK Pangkat')
+                                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_pangkat != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->fotocopi_sk_pangkat != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->fotocopi_sk_pangkat) {
+                                                    $fileName = basename($record->fotocopi_sk_pangkat);
+                                                    return ActionGroup::make([
+                                                        Action::make('download')
+                                                            ->color('primary')
+                                                            ->icon('heroicon-o-arrow-down-tray')
+                                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                                        Action::make('preview')
+                                                            ->color('secondary')
+                                                            ->icon('heroicon-o-eye')
+                                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                                            ->openUrlInNewTab(),
+                                                    ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
                                         TextEntry::make('skp_dua_tahun')
-                                            ->label('2. SKP Dua Tahun')
+                                            ->label('4. SKP Dua Tahun')
                                             ->formatStateUsing(fn($record) => $record->skp_dua_tahun != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
                                             ->color(fn($record) => $record->skp_dua_tahun != null ? 'success' : 'danger')
@@ -565,7 +609,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                             })->default('Belum Diunggah'),
 
                                         TextEntry::make('foto_kopi_ijazah_terakhir')
-                                            ->label('3. Foto Kopi Ijazah Terakhir')
+                                            ->label('5. Foto Kopi Ijazah Terakhir')
                                             ->formatStateUsing(fn($record) => $record->foto_kopi_ijazah_terakhir != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
                                             ->color(fn($record) => $record->foto_kopi_ijazah_terakhir != null ? 'success' : 'danger')
@@ -589,7 +633,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                             })->default('Belum Diunggah'),
 
                                         TextEntry::make('foto_kopi_transkrip_terakhir')
-                                            ->label('4. Foto Kopi Transkrip Terakhir')
+                                            ->label('6. Foto Kopi Transkrip Terakhir')
                                             ->formatStateUsing(fn($record) => $record->foto_kopi_transkrip_terakhir != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
                                             ->color(fn($record) => $record->foto_kopi_transkrip_terakhir != null ? 'success' : 'danger')
@@ -613,7 +657,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                             })->default('Belum Diunggah'),
 
                                         TextEntry::make('keputusan_jabatan')
-                                            ->label('5. Keputusan Jabatan')
+                                            ->label('7. Keputusan Jabatan')
                                             ->formatStateUsing(fn($record) => $record->keputusan_jabatan != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
                                             ->color(fn($record) => $record->keputusan_jabatan != null ? 'success' : 'danger')
@@ -637,7 +681,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                             })->default('Belum Diunggah'),
 
                                         TextEntry::make('surat_keterangan_akreditasi')
-                                            ->label('6. Surat Keterangan Akreditasi')
+                                            ->label('8. Surat Keterangan Akreditasi')
                                             ->formatStateUsing(fn($record) => $record->surat_keterangan_akreditasi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
                                             ->color(fn($record) => $record->surat_keterangan_akreditasi != null ? 'success' : 'danger')
@@ -661,7 +705,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                             })->default('Belum Diunggah'),
 
                                         TextEntry::make('brosur_pamflet')
-                                            ->label('7. Brosur Pamflet')
+                                            ->label('9. Brosur Pamflet')
                                             ->formatStateUsing(fn($record) => $record->brosur_pamflet != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
                                             ->color(fn($record) => $record->brosur_pamflet != null ? 'success' : 'danger')
@@ -685,7 +729,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                             })->default('Belum Diunggah'),
 
                                         TextEntry::make('surat_keterangan_konversi')
-                                            ->label('8. Surat Keterangan Konversi')
+                                            ->label('10. Surat Keterangan Konversi')
                                             ->formatStateUsing(fn($record) => $record->surat_keterangan_konversi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
                                             ->color(fn($record) => $record->surat_keterangan_konversi != null ? 'success' : 'danger')
@@ -709,7 +753,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                             })->default('Belum Diunggah'),
 
                                         TextEntry::make('sertifikat_akreditasi')
-                                            ->label('9. Sertifikat Akreditasi')
+                                            ->label('11. Sertifikat Akreditasi')
                                             ->formatStateUsing(fn($record) => $record->sertifikat_akreditasi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                                             ->badge()
                                             ->color(fn($record) => $record->sertifikat_akreditasi != null ? 'success' : 'danger')
@@ -732,7 +776,7 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                                 return null;
                                             })->default('Belum Diunggah'),
                                         TextEntry::make('dokumen_pengembangan_kompetensi')
-                                            ->label('10. Dokumen Lainnya (Opsional)')
+                                            ->label('12. Dokumen Lainnya (Opsional)')
                                             ->formatStateUsing(fn($record) => $record->dokumen_pengembangan_kompetensi != null ? 'Sudah Diunggah' : 'Belum Ada')
                                             ->badge()
                                             ->color(fn($record) => $record->dokumen_pengembangan_kompetensi != null ? 'success' : 'danger')
@@ -989,7 +1033,6 @@ class DaftarPengajuanTugasBelajarResource extends Resource
                                                 }
                                                 return null;
                                             })->default('Belum Diunggah'),
-
                                         TextEntry::make('surat_keterangan_kesehatan')
                                             ->label('11. Surat Keterangan Kesehatan')
                                             ->formatStateUsing(fn($record) => $record->surat_keterangan_kesehatan != null ? 'Sudah Diunggah' : 'Belum Diunggah')
@@ -1029,7 +1072,11 @@ class DaftarPengajuanTugasBelajarResource extends Resource
 
     public static function getNavigationBadge(): string
     {
-        return TugasBelajar::whereIn('stage', ['tahap_seleksi', 'tahap_lulus'])->count();
+        return TugasBelajar::whereIn('stage', ['tahap_seleksi'])->count();
+    }
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning'; // Atur warna badge menjadi warning
     }
 
 }

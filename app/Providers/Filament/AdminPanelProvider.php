@@ -45,7 +45,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Teal,
             ])
-            ->brandName('SiTubel')
+            ->brandName('Tugas Belajar Mandiri Kota Banjar')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -86,28 +86,28 @@ class AdminPanelProvider extends PanelProvider
                                 ->isActiveWhen(fn(): bool => request()->routeIs('filament.admin.pages.dashboard')),
                         ]),
 
-                    NavigationGroup::make('Peran dan Izin')
-                        ->items([
-                            NavigationItem::make('Roles')
-                                ->icon('heroicon-o-users')
-                                ->isActiveWhen(fn(): bool => request()->routeIs([
-                                    'filament.admin.resources.roles.index',
-                                    'filament.admin.resources.roles.create',
-                                    'filament.admin.resources.roles.view',
-                                    'filament.admin.resources.roles.edit',
-                                ]))
-                                ->url(fn(): string => '/admin/roles'),
-                            NavigationItem::make('Permissions')
-                                ->icon('heroicon-o-lock-closed')
-                                ->isActiveWhen(fn(): bool => request()->routeIs([
-                                    'filament.admin.resources.permissions.index',
-                                    'filament.admin.resources.permissions.create',
-                                    'filament.admin.resources.permissions.view',
-                                    'filament.admin.resources.permissions.edit',
-                                ]))
-                                ->url(fn(): string => '/admin/permissions'),
-
-                        ]),
+                    // NavigationGroup::make('Peran dan Izin')
+                    //    ->items([
+                    //      NavigationItem::make('Roles')
+                    //        ->icon('heroicon-o-users')
+                    //      ->isActiveWhen(fn(): bool => request()->routeIs([
+                    //        'filament.admin.resources.roles.index',
+                    //      'filament.admin.resources.roles.create',
+                    //    'filament.admin.resources.roles.view',
+                    //    'filament.admin.resources.roles.edit',
+                    // ]))
+                    //  ->url(fn(): string => '/admin/roles'),
+                    //  NavigationItem::make('Permissions')
+                    //    ->icon('heroicon-o-lock-closed')
+                    //   ->isActiveWhen(fn(): bool => request()->routeIs([
+                    //       'filament.admin.resources.permissions.index',
+                    //       'filament.admin.resources.permissions.create',
+                    //       'filament.admin.resources.permissions.view',
+                    //      'filament.admin.resources.permissions.edit',
+                    //  ]))
+                    //  ->url(fn(): string => '/admin/permissions'),
+    
+                    // ]),
                     NavigationGroup::make('User')
                         ->items([
                             ...UserResource::getNavigationItems(),
@@ -117,7 +117,7 @@ class AdminPanelProvider extends PanelProvider
                             ...PegawaiResource::getNavigationItems(),
                             ...UnitKerjaResource::getNavigationItems(),
                         ]),
-                    NavigationGroup::make('Pengajuan Tugas Belajar')
+                    NavigationGroup::make('Verifikasi Pengajuan')
                         ->items([
                             ...PengajuanIzinSeleksiResource::getNavigationItems(),
                             ...DaftarPengajuanTugasBelajarResource::getNavigationItems(),

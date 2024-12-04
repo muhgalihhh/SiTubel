@@ -46,7 +46,6 @@ class IzinSeleksiResource extends Resource
             ->schema([
                 View::make('components.announcement')
                     ->columnSpan('full'),
-
                 Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Tabs::make('Form Tabs')
@@ -64,8 +63,17 @@ class IzinSeleksiResource extends Resource
                                             ->required(),
                                         Forms\Components\TextInput::make('prodi')
                                             ->required(),
-                                        Forms\Components\TextInput::make('jenjang_tujuan')
-                                            ->required(),
+                                        Forms\Components\Select::make('jenjang_tujuan')
+                                            ->options([
+                                                'D3' => 'Diploma 3 (D3)',
+                                                'S1' => 'Sarjana (S1)',
+                                                'S2' => 'Magister (S2)',
+                                                'S3' => 'Doktor (S3)',
+                                            ])
+                                            ->required()
+                                            ->searchable()
+                                            ->label('Jenjang Tujuan'),
+
                                     ]),
                                 Forms\Components\Tabs\Tab::make('Lampiran Persyaratan Pengajuan')
                                     ->schema([
@@ -74,16 +82,62 @@ class IzinSeleksiResource extends Resource
                                                 Section::make('Data Kepegawaian')
                                                     ->columns(2)
                                                     ->schema([
-                                                        FileUpload::make('keputusan_cpns_sk_pns_pangkat')
+                                                        FileUpload::make('fotocopi_sk_cpns')
+                                                            ->label('Fotocopy SK CPNS')
+                                                            ->required()
+                                                            ->acceptedFileTypes([
+                                                                'application/pdf',
+                                                                'image/*',
+                                                                'application/zip',                // .zip
+                                                                'application/x-rar-compressed',   // .rar
+                                                                'application/x-7z-compressed',    // .7z
+                                                                'application/x-tar',              // .tar
+                                                                'application/gzip',               // .gz
+                                                            ])
+                                                            ->panelLayout('compact')
+                                                            ->directory('pemberkasan_setelah_lulus'),
+
+                                                        FileUpload::make('fotocopi_sk_pns')
+                                                            ->label('Fotocopy SK PNS')
+                                                            ->required()
+                                                            ->acceptedFileTypes([
+                                                                'application/pdf',
+                                                                'image/*',
+                                                                'application/zip',                // .zip
+                                                                'application/x-rar-compressed',   // .rar
+                                                                'application/x-7z-compressed',    // .7z
+                                                                'application/x-tar',              // .tar
+                                                                'application/gzip',               // .gz
+                                                            ])
+                                                            ->panelLayout('compact')
+                                                            ->directory('pemberkasan_setelah_lulus'),
+
+                                                        FileUpload::make('fotocopi_sk_pangkat')
+                                                            ->label('Fotocopy SK Pangkat')
+                                                            ->required()
+                                                            ->acceptedFileTypes([
+                                                                'application/pdf',
+                                                                'image/*',
+                                                                'application/zip',                // .zip
+                                                                'application/x-rar-compressed',   // .rar
+                                                                'application/x-7z-compressed',    // .7z
+                                                                'application/x-tar',              // .tar
+                                                                'application/gzip',               // .gz
+                                                            ])
+                                                            ->panelLayout('compact')
+                                                            ->directory('pemberkasan_setelah_lulus'),
+                                                        FileUpload::make('keputusan_jabatan')
+                                                            ->label('Fotocopy Keputusan Jabatan')
                                                             ->directory('lampiran_persyaratan_pengajuan_tugas_belajar')
                                                             ->required()
                                                             ->panelLayout('compact')
                                                             ->acceptedFileTypes(['application/pdf', 'image/*'])
                                                             ->getUploadedFileNameForStorageUsing(
                                                                 fn(TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
-                                                                    ->prepend('keputusan_cpns_sk_pns_pangkat-'),
+                                                                    ->prepend('keputusan_jabatan-'),
                                                             ),
                                                         FileUpload::make('skp_dua_tahun')
+                                                            ->label('SKP Dua Tahun')
                                                             ->directory('lampiran_persyaratan_pengajuan_tugas_belajar')
                                                             ->required()
                                                             ->panelLayout('compact')
@@ -93,6 +147,7 @@ class IzinSeleksiResource extends Resource
                                                                     ->prepend('skp_dua_tahun-'),
                                                             ),
                                                         FileUpload::make('foto_kopi_ijazah_terakhir')
+                                                            ->label('Fotocopy Ijazah Terakhir')
                                                             ->directory('lampiran_persyaratan_pengajuan_tugas_belajar')
                                                             ->required()
                                                             ->panelLayout('compact')
@@ -102,6 +157,7 @@ class IzinSeleksiResource extends Resource
                                                                     ->prepend('foto_kopi_ijazah_terakhir-'),
                                                             ),
                                                         FileUpload::make('foto_kopi_transkrip_terakhir')
+                                                            ->label('Fotocopy Transkrip Nilai Terakhir')
                                                             ->directory('lampiran_persyaratan_pengajuan_tugas_belajar')
                                                             ->required()
                                                             ->panelLayout('compact')
@@ -110,15 +166,7 @@ class IzinSeleksiResource extends Resource
                                                                 fn(TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
                                                                     ->prepend('foto_kopi_transkrip_terakhir-'),
                                                             ),
-                                                        FileUpload::make('keputusan_jabatan')
-                                                            ->directory('lampiran_persyaratan_pengajuan_tugas_belajar')
-                                                            ->required()
-                                                            ->panelLayout('compact')
-                                                            ->acceptedFileTypes(['application/pdf', 'image/*'])
-                                                            ->getUploadedFileNameForStorageUsing(
-                                                                fn(TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
-                                                                    ->prepend('keputusan_jabatan-'),
-                                                            ),
+
                                                         FileUpload::make('surat_keterangan_akreditasi')
                                                             ->directory('lampiran_persyaratan_pengajuan_tugas_belajar')
                                                             ->required()
@@ -283,10 +331,12 @@ class IzinSeleksiResource extends Resource
                             $record->{$key} = $value;
                         }
                     }
+                    $record->status = 'pending';
                     Notification::make()
                         ->title('Berhasil Diupload: Tunggu Verifikasi OPD dan BKPSDM')
                         ->success()
                         ->send();
+
                     $record->save();
                 })->visible(fn(TugasBelajar $record): bool => ($record->status === 'pending' || $record->status === 'reject') && $record->stage === 'tahap_opd'),
 
@@ -505,33 +555,76 @@ class IzinSeleksiResource extends Resource
                 Card::make('Data Kebutuhan Izin Seleksi')
                     ->label('Data Kebutuhan Izin Seleksi')
                     ->schema([
-                        // Data Kebutuhan Izin Seleksi
-                        TextEntry::make('keputusan_cpns_sk_pns_pangkat')
-                            ->label('1. Keputusan CPNS SK PNS Pangkat')
-                            ->formatStateUsing(fn($record) => $record->keputusan_cpns_sk_pns_pangkat != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                        TextEntry::make('fotocopi_sk_cpns')
+                            ->label('1. Fotocopi SK CPNS')
+                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_cpns != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
-                            ->color(fn($record) => $record->keputusan_cpns_sk_pns_pangkat != null ? 'success' : 'danger')
+                            ->color(fn($record) => $record->fotocopi_sk_cpns != null ? 'success' : 'danger')
                             ->suffix(function ($record) {
-                                if ($record->keputusan_cpns_sk_pns_pangkat) {
-                                    $fileName = basename($record->keputusan_cpns_sk_pns_pangkat);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
+                                if ($record->fotocopi_sk_cpns) {
+                                    $fileName = basename($record->fotocopi_sk_cpns);
+                                    return ActionGroup::make([
+                                        Action::make('download')
+                                            ->color('primary')
+                                            ->icon('heroicon-o-arrow-down-tray')
+                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                        Action::make('preview')
+                                            ->color('secondary')
+                                            ->icon('heroicon-o-eye')
+                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                            ->openUrlInNewTab(),
+                                    ])->button();
                                 }
                                 return null;
                             })->default('Belum Diunggah'),
 
+                        TextEntry::make('fotocopi_sk_pns')
+                            ->label('2. Fotocopi SK PNS')
+                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_pns != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                            ->badge()
+                            ->color(fn($record) => $record->fotocopi_sk_pns != null ? 'success' : 'danger')
+                            ->suffix(function ($record) {
+                                if ($record->fotocopi_sk_pns) {
+                                    $fileName = basename($record->fotocopi_sk_pns);
+                                    return ActionGroup::make([
+                                        Action::make('download')
+                                            ->color('primary')
+                                            ->icon('heroicon-o-arrow-down-tray')
+                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                        Action::make('preview')
+                                            ->color('secondary')
+                                            ->icon('heroicon-o-eye')
+                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                            ->openUrlInNewTab(),
+                                    ])->button();
+                                }
+                                return null;
+                            })->default('Belum Diunggah'),
+
+                        TextEntry::make('fotocopi_sk_pangkat')
+                            ->label('3. Fotocopi SK Pangkat')
+                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_pangkat != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                            ->badge()
+                            ->color(fn($record) => $record->fotocopi_sk_pangkat != null ? 'success' : 'danger')
+                            ->suffix(function ($record) {
+                                if ($record->fotocopi_sk_pangkat) {
+                                    $fileName = basename($record->fotocopi_sk_pangkat);
+                                    return ActionGroup::make([
+                                        Action::make('download')
+                                            ->color('primary')
+                                            ->icon('heroicon-o-arrow-down-tray')
+                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                        Action::make('preview')
+                                            ->color('secondary')
+                                            ->icon('heroicon-o-eye')
+                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                            ->openUrlInNewTab(),
+                                    ])->button();
+                                }
+                                return null;
+                            })->default('Belum Diunggah'),
                         TextEntry::make('skp_dua_tahun')
-                            ->label('2. SKP Dua Tahun')
+                            ->label('4. SKP Dua Tahun')
                             ->formatStateUsing(fn($record) => $record->skp_dua_tahun != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
                             ->color(fn($record) => $record->skp_dua_tahun != null ? 'success' : 'danger')
@@ -555,7 +648,7 @@ class IzinSeleksiResource extends Resource
                             })->default('Belum Diunggah'),
 
                         TextEntry::make('foto_kopi_ijazah_terakhir')
-                            ->label('3. Foto Kopi Ijazah Terakhir')
+                            ->label('5. Foto Kopi Ijazah Terakhir')
                             ->formatStateUsing(fn($record) => $record->foto_kopi_ijazah_terakhir != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
                             ->color(fn($record) => $record->foto_kopi_ijazah_terakhir != null ? 'success' : 'danger')
@@ -579,7 +672,7 @@ class IzinSeleksiResource extends Resource
                             })->default('Belum Diunggah'),
 
                         TextEntry::make('foto_kopi_transkrip_terakhir')
-                            ->label('4. Foto Kopi Transkrip Terakhir')
+                            ->label('6. Foto Kopi Transkrip Terakhir')
                             ->formatStateUsing(fn($record) => $record->foto_kopi_transkrip_terakhir != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
                             ->color(fn($record) => $record->foto_kopi_transkrip_terakhir != null ? 'success' : 'danger')
@@ -603,7 +696,7 @@ class IzinSeleksiResource extends Resource
                             })->default('Belum Diunggah'),
 
                         TextEntry::make('keputusan_jabatan')
-                            ->label('5. Keputusan Jabatan')
+                            ->label('7. Keputusan Jabatan')
                             ->formatStateUsing(fn($record) => $record->keputusan_jabatan != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
                             ->color(fn($record) => $record->keputusan_jabatan != null ? 'success' : 'danger')
@@ -627,7 +720,7 @@ class IzinSeleksiResource extends Resource
                             })->default('Belum Diunggah'),
 
                         TextEntry::make('surat_keterangan_akreditasi')
-                            ->label('6. Surat Keterangan Akreditasi')
+                            ->label('8. Surat Keterangan Akreditasi')
                             ->formatStateUsing(fn($record) => $record->surat_keterangan_akreditasi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
                             ->color(fn($record) => $record->surat_keterangan_akreditasi != null ? 'success' : 'danger')
@@ -651,7 +744,7 @@ class IzinSeleksiResource extends Resource
                             })->default('Belum Diunggah'),
 
                         TextEntry::make('brosur_pamflet')
-                            ->label('7. Brosur Pamflet')
+                            ->label('9. Brosur Pamflet')
                             ->formatStateUsing(fn($record) => $record->brosur_pamflet != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
                             ->color(fn($record) => $record->brosur_pamflet != null ? 'success' : 'danger')
@@ -675,7 +768,7 @@ class IzinSeleksiResource extends Resource
                             })->default('Belum Diunggah'),
 
                         TextEntry::make('surat_keterangan_konversi')
-                            ->label('8. Surat Keterangan Konversi')
+                            ->label('10. Surat Keterangan Konversi')
                             ->formatStateUsing(fn($record) => $record->surat_keterangan_konversi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
                             ->color(fn($record) => $record->surat_keterangan_konversi != null ? 'success' : 'danger')
@@ -699,7 +792,7 @@ class IzinSeleksiResource extends Resource
                             })->default('Belum Diunggah'),
 
                         TextEntry::make('sertifikat_akreditasi')
-                            ->label('9. Sertifikat Akreditasi')
+                            ->label('11. Sertifikat Akreditasi')
                             ->formatStateUsing(fn($record) => $record->sertifikat_akreditasi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
                             ->badge()
                             ->color(fn($record) => $record->sertifikat_akreditasi != null ? 'success' : 'danger')
@@ -722,7 +815,7 @@ class IzinSeleksiResource extends Resource
                                 return null;
                             })->default('Belum Diunggah'),
                         TextEntry::make('dokumen_pengembangan_kompetensi')
-                            ->label('10. Dokumen Lainnya (Opsional)')
+                            ->label('12. Dokumen Lainnya (Opsional)')
                             ->formatStateUsing(fn($record) => $record->dokumen_pengembangan_kompetensi != null ? 'Sudah Diunggah' : 'Belum Ada')
                             ->badge()
                             ->color(fn($record) => $record->dokumen_pengembangan_kompetensi != null ? 'success' : 'danger')

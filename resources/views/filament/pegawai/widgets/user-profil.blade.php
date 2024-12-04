@@ -17,7 +17,7 @@
                     @endif
                 </div>
 
-                <h2 class="mt-4 text-xl font-semibold">{{ $user->name }}</h2>
+                <h2 class="mt-4 text-xl font-semibold">{{ $pegawai->nama }}</h2>
                 <p class="text-gray-600">{{ $user->email }}</p>
                 @if ($pegawai && $pegawai->bio)
                     <p class="mt-2 text-gray-600">{{ $pegawai->unit_kerja }}</p>
@@ -27,10 +27,10 @@
             <div class="flex flex-col">
                 <h2 class="text-xl font-semibold">Detail Profil</h2>
                 <div class="mt-4">
-                    <p class="text-gray-600">Nama: {{ $user->name }}</p>
+                    <p class="text-gray-600">Nama: {{ $pegawai->nama }}</p>
                     <p class="text-gray-600">Email: {{ $user->email }}</p>
                     @if ($pegawai)
-                        <p class="text-gray-600">NIP: {{ $pegawai->nip }}</p>
+                        <p class="text-gray-600">NIP: {{ $pegawai->NIP }}</p>
                         <p class="text-gray-600">Unit Kerja: {{ $pegawai->unit_kerja }}</p>
                     @else
                         <p class="text-gray-600">NIP: -</p>
@@ -55,7 +55,6 @@
         </x-slot>
         <form wire:submit.prevent="save">
             {{ $this->form }}
-
             <div class="flex justify-end mt-4">
                 <x-filament::button type="submit">
                     Simpan

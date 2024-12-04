@@ -296,7 +296,6 @@ class SuratController extends Controller
         $day = $carbonDate->format('d');
         $month = $months[$carbonDate->format('F')];
         $year = $carbonDate->format('Y');
-
         return "$day $month $year";
     }
 }

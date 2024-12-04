@@ -163,7 +163,6 @@ class PengajuanIzinSeleksiResource extends Resource
                                 return redirect()->route('download.suratDua', ['recordId' => $record->id]);
                             }
                         )->icon('heroicon-o-document-duplicate')->visible(fn(TugasBelajar $record): bool => $record->stage === 'tahap_bkpsdm'),
-                    DeleteAction::make(),
                 ])->icon('heroicon-o-document-duplicate')->button(),
                 ActionGroup::make([
                     Action::make('Setujui')->form([
@@ -217,7 +216,6 @@ class PengajuanIzinSeleksiResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -417,245 +415,288 @@ class PengajuanIzinSeleksiResource extends Resource
                 Card::make('Data Kebutuhan Izin Seleksi')
                     ->label('Data Kebutuhan Izin Seleksi')
                     ->schema([
-                        // Data Kebutuhan Izin Seleksi
-                        TextEntry::make('keputusan_cpns_sk_pns_pangkat')
-                            ->label('1. Keputusan CPNS SK PNS Pangkat')
-                            ->formatStateUsing(fn($record) => $record->keputusan_cpns_sk_pns_pangkat != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->keputusan_cpns_sk_pns_pangkat != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->keputusan_cpns_sk_pns_pangkat) {
-                                    $fileName = basename($record->keputusan_cpns_sk_pns_pangkat);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
+                        TextEntry::make('fotocopi_sk_cpns')
+                                            ->label('1. Fotocopi SK CPNS')
+                                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_cpns != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->fotocopi_sk_cpns != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->fotocopi_sk_cpns) {
+                                                    $fileName = basename($record->fotocopi_sk_cpns);
+                                                    return ActionGroup::make([
+                                                        Action::make('download')
+                                                            ->color('primary')
+                                                            ->icon('heroicon-o-arrow-down-tray')
+                                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                                        Action::make('preview')
+                                                            ->color('secondary')
+                                                            ->icon('heroicon-o-eye')
+                                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                                            ->openUrlInNewTab(),
+                                                    ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
 
-                        TextEntry::make('skp_dua_tahun')
-                            ->label('2. SKP Dua Tahun')
-                            ->formatStateUsing(fn($record) => $record->skp_dua_tahun != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->skp_dua_tahun != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->skp_dua_tahun) {
-                                    $fileName = basename($record->skp_dua_tahun);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
+                                        TextEntry::make('fotocopi_sk_pns')
+                                            ->label('2. Fotocopi SK PNS')
+                                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_pns != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->fotocopi_sk_pns != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->fotocopi_sk_pns) {
+                                                    $fileName = basename($record->fotocopi_sk_pns);
+                                                    return ActionGroup::make([
+                                                        Action::make('download')
+                                                            ->color('primary')
+                                                            ->icon('heroicon-o-arrow-down-tray')
+                                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                                        Action::make('preview')
+                                                            ->color('secondary')
+                                                            ->icon('heroicon-o-eye')
+                                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                                            ->openUrlInNewTab(),
+                                                    ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
 
-                        TextEntry::make('foto_kopi_ijazah_terakhir')
-                            ->label('3. Foto Kopi Ijazah Terakhir')
-                            ->formatStateUsing(fn($record) => $record->foto_kopi_ijazah_terakhir != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->foto_kopi_ijazah_terakhir != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->foto_kopi_ijazah_terakhir) {
-                                    $fileName = basename($record->foto_kopi_ijazah_terakhir);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
+                                        TextEntry::make('fotocopi_sk_pangkat')
+                                            ->label('3. Fotocopi SK Pangkat')
+                                            ->formatStateUsing(fn($record) => $record->fotocopi_sk_pangkat != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->fotocopi_sk_pangkat != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->fotocopi_sk_pangkat) {
+                                                    $fileName = basename($record->fotocopi_sk_pangkat);
+                                                    return ActionGroup::make([
+                                                        Action::make('download')
+                                                            ->color('primary')
+                                                            ->icon('heroicon-o-arrow-down-tray')
+                                                            ->url(route('download.pemberkasansetelahlulus', ['file' => $fileName])),
+                                                        Action::make('preview')
+                                                            ->color('secondary')
+                                                            ->icon('heroicon-o-eye')
+                                                            ->url(route('preview.lampiranLulus', ['file' => $fileName]))
+                                                            ->openUrlInNewTab(),
+                                                    ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
+                                        TextEntry::make('skp_dua_tahun')
+                                            ->label('4. SKP Dua Tahun')
+                                            ->formatStateUsing(fn($record) => $record->skp_dua_tahun != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->skp_dua_tahun != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->skp_dua_tahun) {
+                                                    $fileName = basename($record->skp_dua_tahun);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
 
-                        TextEntry::make('foto_kopi_transkrip_terakhir')
-                            ->label('4. Foto Kopi Transkrip Terakhir')
-                            ->formatStateUsing(fn($record) => $record->foto_kopi_transkrip_terakhir != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->foto_kopi_transkrip_terakhir != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->foto_kopi_transkrip_terakhir) {
-                                    $fileName = basename($record->foto_kopi_transkrip_terakhir);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
+                                        TextEntry::make('foto_kopi_ijazah_terakhir')
+                                            ->label('5. Foto Kopi Ijazah Terakhir')
+                                            ->formatStateUsing(fn($record) => $record->foto_kopi_ijazah_terakhir != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->foto_kopi_ijazah_terakhir != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->foto_kopi_ijazah_terakhir) {
+                                                    $fileName = basename($record->foto_kopi_ijazah_terakhir);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
 
-                        TextEntry::make('keputusan_jabatan')
-                            ->label('5. Keputusan Jabatan')
-                            ->formatStateUsing(fn($record) => $record->keputusan_jabatan != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->keputusan_jabatan != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->keputusan_jabatan) {
-                                    $fileName = basename($record->keputusan_jabatan);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
+                                        TextEntry::make('foto_kopi_transkrip_terakhir')
+                                            ->label('6. Foto Kopi Transkrip Terakhir')
+                                            ->formatStateUsing(fn($record) => $record->foto_kopi_transkrip_terakhir != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->foto_kopi_transkrip_terakhir != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->foto_kopi_transkrip_terakhir) {
+                                                    $fileName = basename($record->foto_kopi_transkrip_terakhir);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
 
-                        TextEntry::make('surat_keterangan_akreditasi')
-                            ->label('6. Surat Keterangan Akreditasi')
-                            ->formatStateUsing(fn($record) => $record->surat_keterangan_akreditasi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->surat_keterangan_akreditasi != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->surat_keterangan_akreditasi) {
-                                    $fileName = basename($record->surat_keterangan_akreditasi);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
+                                        TextEntry::make('keputusan_jabatan')
+                                            ->label('7. Keputusan Jabatan')
+                                            ->formatStateUsing(fn($record) => $record->keputusan_jabatan != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->keputusan_jabatan != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->keputusan_jabatan) {
+                                                    $fileName = basename($record->keputusan_jabatan);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
 
-                        TextEntry::make('brosur_pamflet')
-                            ->label('7. Brosur Pamflet')
-                            ->formatStateUsing(fn($record) => $record->brosur_pamflet != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->brosur_pamflet != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->brosur_pamflet) {
-                                    $fileName = basename($record->brosur_pamflet);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
+                                        TextEntry::make('surat_keterangan_akreditasi')
+                                            ->label('8. Surat Keterangan Akreditasi')
+                                            ->formatStateUsing(fn($record) => $record->surat_keterangan_akreditasi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->surat_keterangan_akreditasi != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->surat_keterangan_akreditasi) {
+                                                    $fileName = basename($record->surat_keterangan_akreditasi);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
 
-                        TextEntry::make('surat_keterangan_konversi')
-                            ->label('8. Surat Keterangan Konversi')
-                            ->formatStateUsing(fn($record) => $record->surat_keterangan_konversi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->surat_keterangan_konversi != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->surat_keterangan_konversi) {
-                                    $fileName = basename($record->surat_keterangan_konversi);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
+                                        TextEntry::make('brosur_pamflet')
+                                            ->label('9. Brosur Pamflet')
+                                            ->formatStateUsing(fn($record) => $record->brosur_pamflet != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->brosur_pamflet != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->brosur_pamflet) {
+                                                    $fileName = basename($record->brosur_pamflet);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
 
-                        TextEntry::make('sertifikat_akreditasi')
-                            ->label('9. Sertifikat Akreditasi')
-                            ->formatStateUsing(fn($record) => $record->sertifikat_akreditasi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
-                            ->badge()
-                            ->color(fn($record) => $record->sertifikat_akreditasi != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->sertifikat_akreditasi) {
-                                    $fileName = basename($record->sertifikat_akreditasi);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Diunggah'),
-                        TextEntry::make('dokumen_pengembangan_kompetensi')
-                            ->label('10. Dokumen Lainnya (Opsional)')
-                            ->formatStateUsing(fn($record) => $record->dokumen_pengembangan_kompetensi != null ? 'Sudah Diunggah' : 'Belum Ada')
-                            ->badge()
-                            ->color(fn($record) => $record->dokumen_pengembangan_kompetensi != null ? 'success' : 'danger')
-                            ->suffix(function ($record) {
-                                if ($record->dokumen_pengembangan_kompetensi) {
-                                    $fileName = basename($record->dokumen_pengembangan_kompetensi);
-                                    return
-                                        ActionGroup::make([
-                                            Action::make('download')
-                                                ->color('primary')
-                                                ->icon('heroicon-o-arrow-down-tray')
-                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
-                                            Action::make('preview')
-                                                ->color('secondary')
-                                                ->icon('heroicon-o-eye')
-                                                ->url(route('preview.lampiran', ['file' => $fileName]))
-                                                ->openUrlInNewTab(),
-                                        ])->button();
-                                }
-                                return null;
-                            })->default('Belum Ada'),
+                                        TextEntry::make('surat_keterangan_konversi')
+                                            ->label('10. Surat Keterangan Konversi')
+                                            ->formatStateUsing(fn($record) => $record->surat_keterangan_konversi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->surat_keterangan_konversi != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->surat_keterangan_konversi) {
+                                                    $fileName = basename($record->surat_keterangan_konversi);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
+
+                                        TextEntry::make('sertifikat_akreditasi')
+                                            ->label('11. Sertifikat Akreditasi')
+                                            ->formatStateUsing(fn($record) => $record->sertifikat_akreditasi != null ? 'Sudah Diunggah' : 'Belum Diunggah')
+                                            ->badge()
+                                            ->color(fn($record) => $record->sertifikat_akreditasi != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->sertifikat_akreditasi) {
+                                                    $fileName = basename($record->sertifikat_akreditasi);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Diunggah'),
+                                        TextEntry::make('dokumen_pengembangan_kompetensi')
+                                            ->label('12. Dokumen Lainnya (Opsional)')
+                                            ->formatStateUsing(fn($record) => $record->dokumen_pengembangan_kompetensi != null ? 'Sudah Diunggah' : 'Belum Ada')
+                                            ->badge()
+                                            ->color(fn($record) => $record->dokumen_pengembangan_kompetensi != null ? 'success' : 'danger')
+                                            ->suffix(function ($record) {
+                                                if ($record->dokumen_pengembangan_kompetensi) {
+                                                    $fileName = basename($record->dokumen_pengembangan_kompetensi);
+                                                    return
+                                                        ActionGroup::make([
+                                                            Action::make('download')
+                                                                ->color('primary')
+                                                                ->icon('heroicon-o-arrow-down-tray')
+                                                                ->url(route('download.lampiranpersyaratan', ['file' => $fileName])),
+                                                            Action::make('preview')
+                                                                ->color('secondary')
+                                                                ->icon('heroicon-o-eye')
+                                                                ->url(route('preview.lampiran', ['file' => $fileName]))
+                                                                ->openUrlInNewTab(),
+                                                        ])->button();
+                                                }
+                                                return null;
+                                            })->default('Belum Ada'),
 
                     ])->columns(3),
             ]);
@@ -663,7 +704,11 @@ class PengajuanIzinSeleksiResource extends Resource
     }
     public static function getNavigationBadge(): string
     {
-        return TugasBelajar::where('stage', 'tahap_bkpsdm')->count();
+        return TugasBelajar::where('stage', 'tahap_opd')->count();
+    }
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning'; // Atur warna badge menjadi warning
     }
 
 

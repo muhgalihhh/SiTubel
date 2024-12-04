@@ -17,5 +17,6 @@ class UnitKerja extends Model
         'email',
         'website',
         'phone',
+        'kepala_opd',
     ];
 }

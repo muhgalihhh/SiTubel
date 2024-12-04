@@ -216,4 +216,17 @@ class PegawaiResource extends Resource
             'index' => Pages\ManagePegawais::route('/'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        $jumlahPegawaiTidakPunyaAkun = Pegawai::whereDoesntHave('user')->count();
+        return $jumlahPegawaiTidakPunyaAkun > 0 ? (string) $jumlahPegawaiTidakPunyaAkun : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning'; // Atur warna badge menjadi warning
+    }
+
+
 }
