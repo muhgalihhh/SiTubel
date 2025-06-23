@@ -2,9 +2,14 @@
 
 ![Sistem Pengajuan Tugas Belajar Mandiri](https://github.com/muhgalihhh/SiTubel/blob/Muhamad-galih/banner.jpg)
 
-# **Sistem Pengajuan Tugas Belajar Mandiri PNS Kota Banjar**
+[Klik di sini untuk Dokumentasi lengkap tentang aplikasi](https://drive.google.com/drive/folders/1uNkqKvM4Oa_cNxfkByDDQ6Bbgn1xQauV?usp=sharing)
+
+
+# **Prototype Sistem Pengajuan Tugas Belajar Mandiri PNS Kota Banjar**
 
 Selamat datang di **Sistem Pengajuan Tugas Belajar Mandiri** bagi **Pegawai Negeri Sipil (PNS) Kota Banjar**. Sistem ini dirancang untuk mempermudah proses pengajuan dan pengelolaan tugas belajar secara online, menggantikan proses manual yang memakan waktu dan rentan terhadap kesalahan.
+
+https://meet.google.com/pwy-mdor-hkc
 
 ## 🚀 **Fitur Utama**
 
