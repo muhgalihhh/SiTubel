@@ -9,7 +9,6 @@
 
 Selamat datang di **Sistem Pengajuan Tugas Belajar Mandiri** bagi **Pegawai Negeri Sipil (PNS) Kota Banjar**. Sistem ini dirancang untuk mempermudah proses pengajuan dan pengelolaan tugas belajar secara online, menggantikan proses manual yang memakan waktu dan rentan terhadap kesalahan.
 
-https://meet.google.com/pwy-mdor-hkc
 
 ## 🚀 **Fitur Utama**
 
