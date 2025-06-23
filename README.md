@@ -123,7 +123,7 @@ Pastikan Anda sudah menginstal [Composer](https://getcomposer.org/), [Node.js](h
 
 7. **Jalankan aplikasi (yang dimana code ini menjalankan backend dan juga fe)**:
     ```bash
-        npm start
+    npm start
     ```
 
 ## 💡 **Contributing**
